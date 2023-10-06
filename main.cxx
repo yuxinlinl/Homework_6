@@ -6,19 +6,19 @@ int main(int numbers, char *content[]) {
     auto pointertoparameter2{*(content[1])};
     auto lengthofparameter1{parameter1.size()};
     auto parameter3asint{std::atoi(content[2])};
-    auto var6{0};
-    auto var7{0};
+    auto checksum{0};
     std::string parameter2{content[1]};
-    while (true) {
-      var6 += parameter2[var7++];
-      if (var7 >= static_cast<int>(parameter2.size())) {
-        break;
-      }
-    }
+    for (int i = 0 ; i <= parameter2.size() ; i++) {
+      checksum += parameter2[i];
     
-    if ((var6 ^ pointertoparameter2 * 3) << (lengthofparameter1 & 0x1f) == parameter3asint) {
+      }
+    
+    int calculatekey(checksum, pointertoparameter2, parameter3asint);
+	    return (checksum ^ pointertoparameter2 * 3) << (lengthofparameter1 & 0x1f);
+    int key = calculatekey(checksum, pointertoparameter2, parameter3asint);
+
+    if (key == parameter3asint) {
       std::cout << "Correct!" << std::endl;
-      std::cout << var6 << std::endl;
     } else {
       std::cout << "Wrong!" << std::endl;
     }
