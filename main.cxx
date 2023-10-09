@@ -1,23 +1,42 @@
 #include <iostream>
 #include <string>
-int main(int numbers, char *content[]) {
-  if (numbers == 3) {
-    std::string parameter1{content[0]};
-    auto pointertoparameter2{*(content[1])};
-    auto lengthofparameter1{parameter1.size()};
-    auto parameter3asint{std::atoi(content[2])};
-    auto checksum{0};
-    std::string parameter2{content[1]};
-    for (int i = 0 ; i <= parameter2.size() ; i++) {
-      checksum += parameter2[i];
-    
-      }
-    
-    int calculatekey(checksum, pointertoparameter2, parameter3asint);
-	    return (checksum ^ pointertoparameter2 * 3) << (lengthofparameter1 & 0x1f);
-    int key = calculatekey(checksum, pointertoparameter2, parameter3asint);
 
-    if (key == parameter3asint) {
+//Function to calculate the checksum of a string
+int CalculateChecksum(const std::string& str){
+  int checksum = 0;
+  for (int i = 0 ; i <= str.size() ; i++){
+    checksum += str[i];
+  }
+  return checksum;
+}
+
+//Function to calculate the key based on inputs
+int Calculatekey(const std::string& programName, char* parameter1, int parameter2){
+  std::string programNameStr{ programName };
+  char firstChar = *parameter1;
+  int programNameLength = programNameStr.size();
+  
+  int checksum = CalculateChecksum(programNameStr);
+  int key = (checksum ^ (firstChar*3)) << (programNameLength & 0x1f);
+
+  return key;
+}
+
+int main(int numbers, char *content[]) {
+  if (numbers == 3){
+    std::string programName{content[0]};
+    char firstChar = {*(content[1])};
+    int programNameLength = programName.size();
+    int parameter2 = std::atoi(content[2]);
+    
+    int key = Calculatekey(programName,content[1],parameter2);
+
+    std::cout << "Checksum:" << CalculateChecksum(programName) << std::endl;
+    std::cout << "Key:" << key << std::endl;
+    std::cout << "Expected Key: " << parameter2 << std::endl;
+    
+    
+    if (key == parameter2){
       std::cout << "Correct!" << std::endl;
     } else {
       std::cout << "Wrong!" << std::endl;
