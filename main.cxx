@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 int main(int numbers, char *content[]) {
-  if (numbers == 3) {
+  bool three_arguments = (numbers == 3);
+  if (three_arguments) {
     std::string parameter1{content[0]};
     auto pointertoparameter2{*(content[1])};
     auto lengthofparameter1{parameter1.size()};
